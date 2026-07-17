@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#9f4225">
+<title>共通テストまであと何日</title>
+<style>
+:root{--top:#c76534;--middle:#9f4225;--bottom:#662414;--number:#fff0b0;--text:#fffaf3;--sub:#f6d7c4}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{width:100%;height:100%;background:#7c2e19}
+body{width:100%;height:100%;min-height:100vh;min-height:-webkit-fill-available;margin:0;overflow:hidden;color:var(--text);background:linear-gradient(155deg,var(--top) 0%,var(--middle) 48%,var(--bottom) 100%);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.screen{width:100%;height:100%;min-height:100vh;min-height:-webkit-fill-available;display:flex;flex-direction:column;padding:calc(22px + env(safe-area-inset-top)) calc(28px + env(safe-area-inset-right)) calc(20px + env(safe-area-inset-bottom)) calc(28px + env(safe-area-inset-left))}
+header{flex:0 0 auto;text-align:center}
+.eyebrow{margin:0 0 4px;color:var(--sub);font-size:clamp(16px,2vw,30px);font-weight:700;letter-spacing:.14em}
+h1{margin:0;font-size:clamp(38px,5vw,76px);line-height:1.08;font-weight:900;letter-spacing:.035em}
+main{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;padding:1vh 0}
+.countdown{width:100%;display:flex;align-items:flex-end;justify-content:center;white-space:nowrap}
+.lead{margin-right:clamp(12px,2.2vw,34px);padding-bottom:clamp(24px,4.5vh,66px);font-size:clamp(46px,7vw,112px);line-height:1;font-weight:900;text-shadow:0 4px 12px rgba(0,0,0,.22)}
+#days{color:var(--number);font-size:clamp(210px,39vw,590px);line-height:.76;font-weight:950;letter-spacing:-.065em;font-variant-numeric:tabular-nums;text-shadow:0 8px 25px rgba(50,14,5,.38)}
+.unit{margin-left:clamp(12px,2.2vw,34px);padding-bottom:clamp(24px,4.5vh,66px);font-size:clamp(48px,8vw,128px);line-height:1;font-weight:900;text-shadow:0 4px 12px rgba(0,0,0,.22)}
+.info{flex:0 0 auto;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding-top:8px;color:var(--sub);font-size:clamp(15px,1.7vw,27px);line-height:1.35;font-weight:700}
+.info strong{color:var(--text)}
+.info>div:last-child{text-align:right}
+@media (orientation:portrait){
+.screen{padding:calc(24px + env(safe-area-inset-top)) calc(24px + env(safe-area-inset-right)) calc(22px + env(safe-area-inset-bottom)) calc(24px + env(safe-area-inset-left))}
+h1{font-size:clamp(34px,6.4vw,62px)}
+main{padding:0}
+.countdown{align-items:flex-end}
+.lead{margin-right:clamp(8px,1.6vw,20px);padding-bottom:clamp(30px,5vh,64px);font-size:clamp(40px,8.8vw,78px)}
+#days{font-size:clamp(220px,54vw,500px)}
+.unit{margin-left:clamp(8px,1.6vw,20px);padding-bottom:clamp(30px,5vh,64px);font-size:clamp(48px,11vw,96px)}
+.info{flex-direction:column;align-items:center;gap:4px;text-align:center;font-size:clamp(16px,3.4vw,27px)}
+.info>div:last-child{text-align:center}
+}
+@media (orientation:landscape) and (min-aspect-ratio:7/5) and (max-aspect-ratio:3/2){
+h1{font-size:clamp(42px,4.8vw,74px)}
+#days{font-size:clamp(230px,37vw,560px)}
+}
+</style>
+</head>
+<body>
+<div class="screen">
+<header><p class="eyebrow">2027年度入試</p><h1>大学入学共通テストまで</h1></header>
+<main><div class="countdown" aria-live="polite"><span class="lead">あと</span><span id="days">---</span><span class="unit" id="unit">日</span></div></main>
+<div class="info"><div><strong>試験日：</strong>2027年1月16日（土）・17日（日）</div><div><strong>本日：</strong><span id="today">----</span></div></div>
+</div>
+<script>
+(function(){
+var targetYear=2027,targetMonth=1,targetDay=16,oneDay=86400000,weekdays=["日","月","火","水","木","金","土"];
+function getJapanDate(){var now=new Date();var utcMilliseconds=now.getTime()+now.getTimezoneOffset()*60000;return new Date(utcMilliseconds+9*60*60000)}
+function setStageColors(days){var style=document.documentElement.style;
+if(days<=7){style.setProperty("--top","#bd321e");style.setProperty("--middle","#8d2017");style.setProperty("--bottom","#50100c");style.setProperty("--number","#fff4b8")}
+else if(days<=30){style.setProperty("--top","#d34f27");style.setProperty("--middle","#a8341e");style.setProperty("--bottom","#641b12");style.setProperty("--number","#ffe895")}
+else if(days<=50){style.setProperty("--top","#d76d30");style.setProperty("--middle","#ad4825");style.setProperty("--bottom","#6c2716");style.setProperty("--number","#ffedaa")}
+else if(days<=100){style.setProperty("--top","#cf793d");style.setProperty("--middle","#a6552c");style.setProperty("--bottom","#71301c");style.setProperty("--number","#fff0bd")}
+else{style.setProperty("--top","#c76534");style.setProperty("--middle","#9f4225");style.setProperty("--bottom","#662414");style.setProperty("--number","#fff0b0")}}
+function updateCountdown(){var japanDate=getJapanDate(),year=japanDate.getFullYear(),month=japanDate.getMonth()+1,day=japanDate.getDate();
+var daysLeft=Math.ceil((Date.UTC(targetYear,targetMonth-1,targetDay)-Date.UTC(year,month-1,day))/oneDay);
+document.getElementById("today").textContent=year+"年"+month+"月"+day+"日（"+weekdays[japanDate.getDay()]+"）";
+setStageColors(daysLeft);
+if(daysLeft>0){document.getElementById("days").textContent=String(daysLeft);document.getElementById("unit").textContent="日"}
+else if(daysLeft===0){document.getElementById("days").textContent="本番";document.getElementById("unit").textContent=""}
+else{document.getElementById("days").textContent="終了";document.getElementById("unit").textContent=""}}
+updateCountdown();window.setInterval(updateCountdown,60000);document.addEventListener("visibilitychange",function(){if(!document.hidden){updateCountdown()}})
+})();
+</script>
+</body>
+</html>
